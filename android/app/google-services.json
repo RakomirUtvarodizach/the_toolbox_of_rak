@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "575201162603",
+    "firebase_url": "https://toolbox-5695d.firebaseio.com",
+    "project_id": "toolbox-5695d",
+    "storage_bucket": "toolbox-5695d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575201162603:android:2ebfd891534617ac48c82e",
+        "android_client_info": {
+          "package_name": "xqw.anagnosti.toolbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575201162603-6ktbavdl2ngvjb2mese012f8619rgmjd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUJLECSyzH7fjXTlsRSbH6c0tuudz2vhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575201162603-6ktbavdl2ngvjb2mese012f8619rgmjd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

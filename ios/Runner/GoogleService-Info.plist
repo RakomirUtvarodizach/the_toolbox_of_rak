@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>575201162603-5c4fv6igg18mpf4ok1h8q54s7lu8ilcl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.575201162603-5c4fv6igg18mpf4ok1h8q54s7lu8ilcl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBdhMVmKRzZzF3OcCrCpL5VGrHGZGI1xgM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>575201162603</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>xqw.anagnosti.toolbox</string>
+	<key>PROJECT_ID</key>
+	<string>toolbox-5695d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>toolbox-5695d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:575201162603:ios:566932e114e3cb9348c82e</string>
+	<key>DATABASE_URL</key>
+	<string>https://toolbox-5695d.firebaseio.com</string>
+</dict>
+</plist>
