@@ -22,6 +22,8 @@ class _DrawerWidgetState extends State<DrawerWidget>
 
   @override
   void initState() {
+    debugPrint("Singleton User from drawer widget: " +
+        _singleton.user.readFieldsAsString());
     currentUserName = (_singleton.user.firstName ?? "Dummy") +
         " " +
         (_singleton.user.lastName ?? "Name");

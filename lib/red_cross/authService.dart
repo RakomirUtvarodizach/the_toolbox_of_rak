@@ -38,12 +38,14 @@ class AuthService {
       AuthResult aResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = aResult.user;
-      if (user != null) {
-        _ms.updateSingletonUser("users", user.uid);
-      }
+      // if (user != null) {
+      //   bool yesno = await MoneySaver().updateSingletonUser("users", user.uid);
+      //   debugPrint(
+      //       "[AuthService] Money Saver update singleton user result -> $yesno");
+      // }
       return _userFromFirebaseUser(user);
     } catch (e) {
-      debugPrint("Error while logging in: " + e.toString());
+      debugPrint("[AuthService] Error while logging in: " + e.toString());
     }
   }
 
@@ -66,7 +68,8 @@ class AuthService {
       }
       return null;
     } catch (e) {
-      debugPrint("Register with email and password error : " + e.toString());
+      debugPrint("[AuthService] Register with email and password error : " +
+          e.toString());
       return null;
     }
   }
@@ -76,7 +79,7 @@ class AuthService {
     try {
       return await _auth.signOut();
     } catch (e) {
-      debugPrint("Log out error: " + e.toString());
+      debugPrint("[AuthService] Log out error: " + e.toString());
       return null;
     }
   }

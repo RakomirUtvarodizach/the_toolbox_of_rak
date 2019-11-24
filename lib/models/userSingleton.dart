@@ -16,4 +16,16 @@ class UserSingleton {
       'isVerified': isVerified
     };
   }
+
+  String readFieldsAsString() {
+    return "email -> $email\nfirstName -> $firstName\nlastName -> $lastName\nisVerified -> " +
+        isVerified.toString();
+  }
+
+  bool checkIfNull() {
+    if (this.email == null) return true;
+    if (this.firstName == null) return true;
+    if (lastName == null) return true;
+    return false;
+  }
 }

@@ -48,6 +48,9 @@ class MoneySaver {
     debugPrint("MAP OF USER: " + mapOfUser.toString());
     if (mapOfUser != null) {
       Singleton _s = Singleton();
+      if (_s.user == null) {
+        _s.user = new UserSingleton();
+      }
       _s.user.email = mapOfUser["email"] ?? "dumdum@gmail.com";
       _s.user.firstName = mapOfUser["firstName"] ?? "DumFirst";
       _s.user.lastName = mapOfUser["lastName"] ?? "DumLast";
