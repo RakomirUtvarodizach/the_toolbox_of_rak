@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:toolbox/models/dataThree.dart';
+import 'package:toolbox/models/dataTwo.dart';
 import 'package:toolbox/red_cross/localStorageAttic.dart';
 import 'package:toolbox/red_cross/secureStorageAttic.dart';
 
@@ -215,6 +219,65 @@ class _DatabaseTestingState extends State<DatabaseTesting> {
                       padding: EdgeInsets.all(10.0),
                       child: Text("Local Storage Clear",
                           style: TextStyle(fontSize: 20)),
+                    ),
+                    SizedBox(height: 10.0),
+                    RaisedButton(
+                      color: Colors.brown,
+                      shape: BeveledRectangleBorder(
+                        side: BorderSide(width: 2.0, color: Colors.white),
+                      ),
+                      onPressed: () {
+                        List<String> animals = [
+                          "koala",
+                          "eagle",
+                          "rat",
+                          "rabbit",
+                          "deer"
+                        ];
+                        DataThree d3 = DataThree(
+                            listOfStringsInThree: animals,
+                            threeBool: true,
+                            threeInt: 67,
+                            threeString: "This gives us lots of animals");
+                        List<DataThree> d3list = [];
+                        d3list.addAll(
+                          [
+                            d3,
+                            DataThree(
+                              threeBool: false,
+                              threeInt: 98,
+                              threeString: "A simple list of fruit",
+                              listOfStringsInThree: [
+                                "apple",
+                                "banana",
+                                "raspberry",
+                                "strawberry",
+                                "pineapple",
+                                "pomegranate"
+                              ],
+                            ),
+                          ],
+                        );
+                        DataTwo d2 = DataTwo(
+                            twoBool: false,
+                            twoInt: 44,
+                            twoString: "This is a list of Twos",
+                            listOfTwosInThree: d3list);
+
+                        var d23encoded = json.encode(d2);
+                        debugPrint("d23encoded -> $d23encoded");
+
+                        var d2decoded = json.decode(d23encoded);
+                        debugPrint("d2decoded -> ${d2decoded.runtimeType}");
+
+                        var d2frommed = DataTwo.fromJson(d2decoded);
+                        debugPrint(
+                            "d2frommed -> ${d2frommed.listOfTwosInThree.toString()}");
+                      },
+                      child: Text(
+                        "Map testing",
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      ),
                     ),
                     /*SizedBox(height: 10.0),
                     RaisedButton(
