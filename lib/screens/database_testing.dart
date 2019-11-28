@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:toolbox/models/dataThree.dart';
 import 'package:toolbox/models/dataTwo.dart';
+import 'package:toolbox/red_cross/firestoreAttic.dart';
 import 'package:toolbox/red_cross/localStorageAttic.dart';
 import 'package:toolbox/red_cross/secureStorageAttic.dart';
 
@@ -226,7 +227,7 @@ class _DatabaseTestingState extends State<DatabaseTesting> {
                       shape: BeveledRectangleBorder(
                         side: BorderSide(width: 2.0, color: Colors.white),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         List<String> animals = [
                           "koala",
                           "eagle",
@@ -273,6 +274,17 @@ class _DatabaseTestingState extends State<DatabaseTesting> {
                         var d2frommed = DataTwo.fromJson(d2decoded);
                         debugPrint(
                             "d2frommed -> ${d2frommed.listOfTwosInThree.toString()}");
+
+                        // FirestoreAttic()
+                        //     .faSetDocument(d2decoded, "testing_data");
+
+                        // await FirestoreAttic()
+                        //     .faGetDocumentById(
+                        //         "T806cVAZUYSRkyKoe2yn", "testing_data")
+                        //     .then((DocumentSnapshot snapshot) {
+                        //   debugPrint("Snapshot: ${snapshot.data}");
+                        // });
+                        // debugPrint("After read");
                       },
                       child: Text(
                         "Map testing",

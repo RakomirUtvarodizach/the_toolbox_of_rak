@@ -1,12 +1,40 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:toolbox/models/providers/habitTrackerProvider.dart';
+import 'package:toolbox/models/providers/notesProvider.dart';
+import 'package:toolbox/models/providers/settingsProvider.dart';
+import 'package:toolbox/models/providers/ShoppingListProvider.dart';
+import 'package:toolbox/models/providers/toDoListProvider.dart';
+import 'package:toolbox/models/providers/weightTrackerProvider.dart';
+
+part 'userSingleton.g.dart';
+
+@JsonSerializable()
 class UserSingleton {
   final String uid;
   String email;
   String firstName;
   String lastName;
   bool isVerified;
+  //HabitTrackerProvider habitTrackerProvider;
+  //NotesProvider notesProvider;
+  //SettingsProvider settingsProvider;
+  ShoppingListProvider shoppingListProvider;
+  //ToDoListProvider toDoListProvider;
+  //WeightTrackerProvider weightTrackerProvider;
 
-  UserSingleton(
-      {this.uid, this.email, this.firstName, this.lastName, this.isVerified});
+  UserSingleton({
+    this.uid,
+    this.email,
+    this.firstName,
+    this.lastName,
+    this.isVerified,
+    //this.habitTrackerProvider,
+    //this.notesProvider,
+    //this.settingsProvider,
+    this.shoppingListProvider,
+    //this.toDoListProvider,
+    //this.weightTrackerProvider,
+  });
 
   Map toMap() {
     return {

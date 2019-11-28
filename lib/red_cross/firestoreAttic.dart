@@ -48,11 +48,6 @@ class FirestoreAttic {
     return _ref.snapshots();
   }
 
-  Future<DocumentSnapshot> faGetDocumentById(String id, String path) {
-    CollectionReference _ref = _database.collection(path);
-    return _ref.document(id).get();
-  }
-
   Future<void> faRemoveDocument(String id, String path) {
     CollectionReference _ref = _database.collection(path);
     return _ref.document(id).delete();
@@ -61,10 +56,23 @@ class FirestoreAttic {
   Future<DocumentReference> faAddDocument(Map data, String path) {
     CollectionReference _ref = _database.collection(path);
     return _ref.add(data);
+  }*/
+
+  Future<DocumentSnapshot> faGetDocumentById(String id, String path) {
+    CollectionReference _ref = _database.collection(path);
+    return _ref.document(id).get();
   }
 
   Future<void> faUpdateDocument(Map data, String id, String path) {
     CollectionReference _ref = _database.collection(path);
     return _ref.document(id).updateData(data);
-  }*/
+  }
+
+  Future<void> faSetDocument(Map data, String path, {String id}) {
+    CollectionReference _ref = _database.collection(path);
+    if (id == null) {
+      return _ref.add(data);
+    } else
+      return _ref.document(id).setData(data);
+  }
 }

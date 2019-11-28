@@ -16,7 +16,9 @@ class ToolboxRun extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         title: 'Toolbox',
-        home: Wrapper(),
+        home: SafeArea(
+          child: Wrapper(),
+        ),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primaryColor: PrimaryColor,

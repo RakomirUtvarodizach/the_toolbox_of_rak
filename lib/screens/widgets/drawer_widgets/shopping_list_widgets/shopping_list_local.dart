@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toolbox/models/shopping_list_test_item.dart';
+import 'package:toolbox/models/shopping_list_item.dart';
 
 class ShoppingListLocal extends StatefulWidget {
   @override
@@ -7,7 +7,7 @@ class ShoppingListLocal extends StatefulWidget {
 }
 
 class _ShoppingListLocalState extends State<ShoppingListLocal> {
-  var _localItems = List<ShoppingListTestItem>();
+  var _localItems = List<ShoppingListItem>();
 
   /*_addNewItem(ShoppingListTestItem newItem) =>
       setState(() => _localItems.add(newItem));*/
@@ -32,9 +32,9 @@ class _ShoppingListLocalState extends State<ShoppingListLocal> {
           color: Colors.white,
           elevation: 2.0,
           child: ListTile(
-            leading: checkPriority(_localItems[position].getPriority),
-            title: Text(_localItems[position].getItem),
-            subtitle: Text(_localItems[position].getDescription),
+            leading: checkPriority(_localItems[position].priority),
+            title: Text(_localItems[position].title),
+            subtitle: Text(_localItems[position].description),
             trailing: IconButton(
               icon: Icon(Icons.more_vert),
               onPressed: () {

@@ -191,9 +191,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                         child: Text("Log In", style: TextStyle(fontSize: 20)),
                       )),
                   SizedBox(height: 10.0),
-                  Text(
-                    error,
-                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 6.0),
+                      child: Text(
+                        error,
+                        style: TextStyle(color: Colors.red, fontSize: 20.0),
+                      ),
+                    ),
                   )
                 ],
               ),
