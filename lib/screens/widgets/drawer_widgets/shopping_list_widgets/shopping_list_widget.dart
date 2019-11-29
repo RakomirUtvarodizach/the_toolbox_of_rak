@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:toolbox/screens/widgets/drawer_widgets/shopping_list_widgets/shopping_list_editor_view.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/extraWidgets.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/listItemWidget.dart';
@@ -17,8 +18,11 @@ class ShoppingListWidget extends StatefulWidget {
 class _ShoppingListState extends State<ShoppingListWidget>
     with TickerProviderStateMixin {
   TabController _shoppingListsController;
-  AnimationController _fabController;
+  AnimationController _fabController, _fabShowHideController;
+  Animation<Offset> _fabShowHideOffset;
   List localListItems;
+  ScrollController _scrollController;
+  bool atBottom = false;
 
   static const List<IconData> icons = const [Icons.note_add, Icons.person_add];
 
@@ -30,12 +34,46 @@ class _ShoppingListState extends State<ShoppingListWidget>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
+    _fabShowHideController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    _fabShowHideOffset = Tween<Offset>(
+      begin: Offset.zero,
+      end: Offset(0.0, 1.0),
+    ).animate(
+      CurvedAnimation(
+          parent: _fabShowHideController,
+          curve: Curves.fastLinearToSlowEaseIn,
+          reverseCurve: Curves.fastOutSlowIn),
+    );
+    _scrollController = ScrollController()
+      ..addListener(() {
+        if (_scrollController.offset >=
+                _scrollController.position.maxScrollExtent &&
+            !_scrollController.position.outOfRange &&
+            (_fabShowHideController.status == AnimationStatus.dismissed)) {
+          atBottom = true;
+          debugPrint("reach the bottom");
+          if (!_fabController.isDismissed) {
+            _fabController.reverse();
+          }
+          _fabShowHideController.forward();
+        } else if (atBottom == true) {
+          debugPrint("Test");
+          atBottom = false;
+          _fabShowHideController.reverse();
+        }
+      });
     super.initState();
   }
 
   @override
   void dispose() {
     _shoppingListsController.dispose();
+    _fabController.dispose();
+    _scrollController.dispose();
+    _fabShowHideController.dispose();
     super.dispose();
   }
 
@@ -57,89 +95,92 @@ class _ShoppingListState extends State<ShoppingListWidget>
     );
 
     return Scaffold(
-        floatingActionButton: Column(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            height: 70.0,
-            width: 56.0,
-            alignment: FractionalOffset.topCenter,
-            child: ScaleTransition(
-              scale: CurvedAnimation(
-                parent: _fabController,
-                curve: Interval(0.0, 1.0 - 0 / icons.length / 2.0,
-                    curve: Curves.easeOut),
-              ),
-              child: FloatingActionButton(
-                tooltip: "Open the local list editor",
-                heroTag: null,
-                backgroundColor: AccentColor500,
-                mini: true,
-                child: Icon(Icons.note_add, color: Colors.white),
-                onPressed: () {
-                  if (_fabController.isDismissed) {
-                    _fabController.forward();
-                  } else {
-                    _fabController.reverse();
-                  }
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ShoppingListEditorView()));
-                  /*Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          ShoppingListEditor('Add a new item')));*/
-                },
-              ),
-            ),
-          ),
-          Container(
-            height: 70.0,
-            width: 56.0,
-            alignment: FractionalOffset.topCenter,
-            child: ScaleTransition(
-              scale: CurvedAnimation(
-                parent: _fabController,
-                curve: Interval(0.0, 1.0 - 1 / icons.length / 2.0,
-                    curve: Curves.easeOut),
-              ),
-              child: FloatingActionButton(
-                tooltip: "Create a shared list",
-                heroTag: null,
-                backgroundColor: AccentColor500,
-                mini: true,
-                child: Icon(Icons.person_add, color: Colors.white),
-                onPressed: () {
-                  if (_fabController.isDismissed) {
-                    _fabController.forward();
-                  } else {
-                    _fabController.reverse();
-                  }
-                  debugPrint("Sharing a list yay");
-                },
+        floatingActionButton: SlideTransition(
+          position: _fabShowHideOffset,
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Container(
+              height: 70.0,
+              width: 56.0,
+              alignment: FractionalOffset.topCenter,
+              child: ScaleTransition(
+                scale: CurvedAnimation(
+                  parent: _fabController,
+                  curve: Interval(0.0, 1.0 - 0 / icons.length / 2.0,
+                      curve: Curves.easeOut),
+                ),
+                child: FloatingActionButton(
+                  tooltip: "Open the local list editor",
+                  heroTag: null,
+                  backgroundColor: AccentColor500,
+                  mini: true,
+                  child: Icon(Icons.note_add, color: Colors.white),
+                  onPressed: () {
+                    if (_fabController.isDismissed) {
+                      _fabController.forward();
+                    } else {
+                      _fabController.reverse();
+                    }
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ShoppingListEditorView()));
+                    /*Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ShoppingListEditor('Add a new item')));*/
+                  },
+                ),
               ),
             ),
-          ),
-          FloatingActionButton(
-            heroTag: null,
-            tooltip: "Show options",
-            backgroundColor: AccentColor,
-            child: AnimatedBuilder(
-              animation: _fabController,
-              builder: (BuildContext context, Widget child) {
-                return Transform(
-                  transform: Matrix4.rotationZ(
-                      _fabController.value * 0.5 * math.pi * 3.0),
-                  alignment: FractionalOffset.center,
-                  child: Icon(Icons.more_vert),
-                );
+            Container(
+              height: 70.0,
+              width: 56.0,
+              alignment: FractionalOffset.topCenter,
+              child: ScaleTransition(
+                scale: CurvedAnimation(
+                  parent: _fabController,
+                  curve: Interval(0.0, 1.0 - 1 / icons.length / 2.0,
+                      curve: Curves.easeOut),
+                ),
+                child: FloatingActionButton(
+                  tooltip: "Create a shared list",
+                  heroTag: null,
+                  backgroundColor: AccentColor500,
+                  mini: true,
+                  child: Icon(Icons.person_add, color: Colors.white),
+                  onPressed: () {
+                    if (_fabController.isDismissed) {
+                      _fabController.forward();
+                    } else {
+                      _fabController.reverse();
+                    }
+                    debugPrint("Sharing a list yay");
+                  },
+                ),
+              ),
+            ),
+            FloatingActionButton(
+              heroTag: null,
+              tooltip: "Show options",
+              backgroundColor: AccentColor,
+              child: AnimatedBuilder(
+                animation: _fabController,
+                builder: (BuildContext context, Widget child) {
+                  return Transform(
+                    transform: Matrix4.rotationZ(
+                        _fabController.value * 0.5 * math.pi * 3.0),
+                    alignment: FractionalOffset.center,
+                    child: Icon(Icons.more_vert),
+                  );
+                },
+              ),
+              onPressed: () {
+                if (_fabController.isDismissed) {
+                  _fabController.forward();
+                } else {
+                  _fabController.reverse();
+                }
               },
             ),
-            onPressed: () {
-              if (_fabController.isDismissed) {
-                _fabController.forward();
-              } else {
-                _fabController.reverse();
-              }
-            },
-          ),
-        ]),
+          ]),
+        ),
         appBar: PreferredSize(
           preferredSize:
               Size.fromHeight(_shoppingListsTabBar.preferredSize.height),
@@ -154,6 +195,7 @@ class _ShoppingListState extends State<ShoppingListWidget>
             Hero(
               tag: "local_shopping_list",
               child: ListView.builder(
+                controller: _scrollController,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: localListItems.length,

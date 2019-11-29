@@ -13,7 +13,11 @@ UserSingleton _$UserSingletonFromJson(Map<String, dynamic> json) {
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
     isVerified: json['isVerified'] as bool,
-    shoppingListProvider: json['shoppingListProvider'],
+    imageURL: json['imageURL'] as String,
+    shoppingListProvider: json['shoppingListProvider'] == null
+        ? null
+        : ShoppingListProvider.fromJson(
+            json['shoppingListProvider'] as Map<String, dynamic>),
   );
 }
 
@@ -24,5 +28,6 @@ Map<String, dynamic> _$UserSingletonToJson(UserSingleton instance) =>
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'isVerified': instance.isVerified,
+      'imageURL': instance.imageURL,
       'shoppingListProvider': instance.shoppingListProvider,
     };

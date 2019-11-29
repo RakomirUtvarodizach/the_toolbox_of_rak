@@ -61,28 +61,30 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             return Future.value(true);
           }
         },
-        child: Scaffold(
-            backgroundColor: Colors.white,
-            resizeToAvoidBottomInset: true,
-            body: Stack(
-              fit: StackFit.loose,
-              alignment: Alignment.center,
-              children: <Widget>[
-                GrowTransition(
-                    animation: growAnimation,
-                    child: Container(
-                        child: Align(
-                            child: Image(
-                                image: AssetImage('images/logo_dummy.png'),
-                                fit: BoxFit.fitWidth)))),
-                SlideInTransition(
-                    kid: AnimatedSwitcher(
-                        duration: const Duration(seconds: 1),
-                        child: currentChild()),
-                    animation: slideAnimation,
-                    width: width)
-              ],
-            )));
+        child: SafeArea(
+          child: Scaffold(
+              backgroundColor: Colors.white,
+              resizeToAvoidBottomInset: true,
+              body: Stack(
+                fit: StackFit.loose,
+                alignment: Alignment.center,
+                children: <Widget>[
+                  GrowTransition(
+                      animation: growAnimation,
+                      child: Container(
+                          child: Align(
+                              child: Image(
+                                  image: AssetImage('images/logo_dummy.png'),
+                                  fit: BoxFit.fitWidth)))),
+                  SlideInTransition(
+                      kid: AnimatedSwitcher(
+                          duration: const Duration(seconds: 1),
+                          child: currentChild()),
+                      animation: slideAnimation,
+                      width: width)
+                ],
+              )),
+        ));
   }
 
   Widget currentChild() {

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:toolbox/models/providers/habitTrackerProvider.dart';
 import 'package:toolbox/models/providers/notesProvider.dart';
 import 'package:toolbox/models/providers/settingsProvider.dart';
-import 'package:toolbox/models/providers/ShoppingListProvider.dart';
+import 'package:toolbox/models/providers/shoppingListProvider.dart';
 import 'package:toolbox/models/providers/toDoListProvider.dart';
 import 'package:toolbox/models/providers/weightTrackerProvider.dart';
 
@@ -15,6 +15,7 @@ class UserSingleton {
   String firstName;
   String lastName;
   bool isVerified;
+  String imageURL;
   //HabitTrackerProvider habitTrackerProvider;
   //NotesProvider notesProvider;
   //SettingsProvider settingsProvider;
@@ -28,6 +29,7 @@ class UserSingleton {
     this.firstName,
     this.lastName,
     this.isVerified,
+    this.imageURL,
     //this.habitTrackerProvider,
     //this.notesProvider,
     //this.settingsProvider,

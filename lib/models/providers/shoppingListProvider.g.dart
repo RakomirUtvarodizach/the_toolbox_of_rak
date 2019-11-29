@@ -18,6 +18,8 @@ ShoppingListProvider _$ShoppingListProviderFromJson(Map<String, dynamic> json) {
             ? null
             : ShoppingFriend.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    recentItems:
+        (json['recentItems'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -26,4 +28,5 @@ Map<String, dynamic> _$ShoppingListProviderToJson(
     <String, dynamic>{
       'localShoppingListItems': instance.localShoppingListItems,
       'shoppingFriends': instance.shoppingFriends,
+      'recentItems': instance.recentItems,
     };
