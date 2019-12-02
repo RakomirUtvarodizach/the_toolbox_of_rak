@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:toolbox/etc/icons.dart';
 import 'package:toolbox/models/shopping_list_item.dart';
+import 'package:toolbox/screens/widgets/sharedWidgets/customDialog.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/customExpandingListTile.dart';
 import 'package:toolbox/styles.dart';
 
-class ListItemWidget extends StatelessWidget {
+class ListItemWidget extends StatefulWidget {
   final AssetImage image;
   final String name, email, colorType, radiusType;
   final int notificationCount, listItemType;
@@ -26,8 +27,13 @@ class ListItemWidget extends StatelessWidget {
       this.sli});
 
   @override
+  _ListItemWidgetState createState() => _ListItemWidgetState();
+}
+
+class _ListItemWidgetState extends State<ListItemWidget> {
+  @override
   Widget build(BuildContext context) {
-    if (listItemType == 0) {
+    if (widget.listItemType == 0) {
       return Card(
         color: Colors.white,
         elevation: 8.0,
@@ -44,7 +50,7 @@ class ListItemWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: this.image ??
+                  image: this.widget.image ??
                       AssetImage(
                         'images/rolph.jpg',
                       ),
@@ -73,7 +79,7 @@ class ListItemWidget extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.only(left: 2.0),
                             child: Text(
-                              this.name,
+                              this.widget.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontSize: 18.0),
@@ -91,7 +97,7 @@ class ListItemWidget extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 2.0, left: 3.0),
                             child: Text(
-                              this.email,
+                              this.widget.email,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontSize: 16.0),
@@ -114,7 +120,7 @@ class ListItemWidget extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   highlightColor: AccentColor,
-                  onTap: this.onTap ??
+                  onTap: this.widget.onTap ??
                       () {
                         debugPrint("Ink is, well, clicked.");
                       },
@@ -124,7 +130,7 @@ class ListItemWidget extends StatelessWidget {
           ],
         ),
       );
-    } else if (listItemType == 1 && sli != null) {
+    } else if (widget.listItemType == 1 && widget.sli != null) {
       return CustomExpandingListTile(
         borderGradient: typeOneGradient(),
         borderRadius: typeOneRadius(),
@@ -136,14 +142,14 @@ class ListItemWidget extends StatelessWidget {
             ),
           ),
           child: Icon(
-            _manageSliType(sli.type),
+            _manageSliType(widget.sli.type),
             color: Colors.white.withOpacity(0.65),
           ),
         ),
         title: Column(
           children: <Widget>[
             Text(
-              sli.title,
+              widget.sli.title,
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -153,13 +159,13 @@ class ListItemWidget extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   Icons.traffic,
-                  color: _manageSliPriorityColor(sli.priority),
+                  color: _manageSliPriorityColor(widget.sli.priority),
                 ),
                 SizedBox(
                   width: 4.0,
                 ),
                 Text(
-                  "Priority:  " + _manageSliPriorityName(sli.priority),
+                  "Priority:  " + _manageSliPriorityName(widget.sli.priority),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: BodyTextSize,
@@ -177,7 +183,7 @@ class ListItemWidget extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 8.0),
             padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              sli.description,
+              widget.sli.description,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: BodyTextSize,
@@ -185,6 +191,96 @@ class ListItemWidget extends StatelessWidget {
             ),
           ),
         ],
+      );
+    } else if (widget.listItemType == 2 && widget.sli != null) {
+      return Card(
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: typeOneRadius(),
+        ),
+        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.blueGrey.withOpacity(0.6),
+                  offset: Offset(1.11, 4.0),
+                  blurRadius: 8.0),
+            ],
+            gradient: typeOneGradient(),
+            borderRadius: typeOneRadius(),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              customBorder: RoundedRectangleBorder(
+                borderRadius: typeOneRadius(),
+              ),
+              splashColor: AccentColor400.withOpacity(0.2),
+              onTap: () {
+                debugPrint("InkWell from LIST ITEM TYPE 2 tapped");
+              },
+              child: ListTile(
+                leading: Container(
+                  padding: EdgeInsets.only(right: 12.0),
+                  decoration: new BoxDecoration(
+                    border: new Border(
+                      right: new BorderSide(width: 1.0, color: Colors.white24),
+                    ),
+                  ),
+                  child: Icon(
+                    _manageSliType(widget.sli.type),
+                    color: Colors.white.withOpacity(0.65),
+                  ),
+                ),
+                title: Column(
+                  children: <Widget>[
+                    Text(
+                      widget.sli.title,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: MediumTextSize),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.traffic,
+                          color: _manageSliPriorityColor(widget.sli.priority),
+                        ),
+                        SizedBox(
+                          width: 4.0,
+                        ),
+                        Text(
+                          "Priority:  " +
+                              _manageSliPriorityName(widget.sli.priority),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: BodyTextSize,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.white,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 8.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        widget.sli.description,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: BodyTextSize,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       );
     } else {
       return Card(
@@ -222,7 +318,7 @@ class ListItemWidget extends StatelessWidget {
   }
 
   Widget _shouldIShowNotificationBubble() {
-    if (notificationCount > 0) {
+    if (widget.notificationCount > 0) {
       return Positioned(
         top: 3.0,
         left: 3.0,
@@ -240,7 +336,7 @@ class ListItemWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(50.0),
           ),
           child: Text(
-            this.notificationCount.toString(),
+            this.widget.notificationCount.toString(),
             style:
                 TextStyle(color: Colors.white, fontSize: LowerMediumTextSize),
           ),
@@ -290,28 +386,28 @@ class ListItemWidget extends StatelessWidget {
   }
 
   BorderRadius typeOneRadius() {
-    if (radiusType == "tr") {
+    if (widget.radiusType == "tr") {
       return BorderRadius.only(
         bottomRight: Radius.circular(8.0),
         bottomLeft: Radius.circular(8.0),
         topLeft: Radius.circular(8.0),
         topRight: Radius.circular(54.0),
       );
-    } else if (radiusType == "bl") {
+    } else if (widget.radiusType == "bl") {
       return BorderRadius.only(
         bottomRight: Radius.circular(8.0),
         bottomLeft: Radius.circular(54.0),
         topLeft: Radius.circular(8.0),
         topRight: Radius.circular(8.0),
       );
-    } else if (radiusType == "br") {
+    } else if (widget.radiusType == "br") {
       return BorderRadius.only(
         bottomRight: Radius.circular(54.0),
         bottomLeft: Radius.circular(8.0),
         topLeft: Radius.circular(8.0),
         topRight: Radius.circular(8.0),
       );
-    } else if (radiusType == "tl") {
+    } else if (widget.radiusType == "tl") {
       return BorderRadius.only(
         bottomRight: Radius.circular(8.0),
         bottomLeft: Radius.circular(8.0),
@@ -324,19 +420,19 @@ class ListItemWidget extends StatelessWidget {
   }
 
   Gradient typeOneGradient() {
-    if (colorType == "green") {
+    if (widget.colorType == "green") {
       return LinearGradient(
         colors: [DarkColor, NeutralColor],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       );
-    } else if (colorType == "blue") {
+    } else if (widget.colorType == "blue") {
       return LinearGradient(
         colors: [LightComplementaryColor600, LightComplementaryColor],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       );
-    } else if (colorType == "green_comp") {
+    } else if (widget.colorType == "green_comp") {
       return LinearGradient(
         colors: [DarkComplementaryColor, NeutralComplementaryColor],
         begin: Alignment.topLeft,

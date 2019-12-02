@@ -1,7 +1,7 @@
 import 'package:toolbox/models/shopping_list_item.dart';
 
 class TestingData {
-  final List shoppingListItems = [
+  final List<ShoppingListItem> _shoppingListItems = [
     ShoppingListItem(
         title: "Ono za ciscenje kupatila",
         description: "A boze me sacuvaj znas na sta mislim pobogu",
@@ -101,6 +101,6 @@ class TestingData {
   ];
 
   List getShoppingListItems() {
-    return shoppingListItems;
+    return _shoppingListItems;
   }
 }

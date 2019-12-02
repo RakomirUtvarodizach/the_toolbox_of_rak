@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toolbox/models/singleton.dart';
 import 'package:toolbox/screens/widgets/drawer_widget.dart';
 import 'package:toolbox/screens/widgets/drawer_widgets/notes_widget.dart';
 import 'package:toolbox/screens/widgets/drawer_widgets/habit_tracker_widget.dart';
@@ -15,10 +16,22 @@ class DrawerHome extends StatefulWidget {
 
 class DrawerHomeState extends State<DrawerHome>
     with SingleTickerProviderStateMixin {
-  int currentDrawerWidgetIndex = 0;
+  Singleton _singleton = Singleton();
+  int currentDrawerWidgetIndex = 4;
 
-  _changeDrawerWidget(int newWidgetId) =>
-      setState(() => currentDrawerWidgetIndex = newWidgetId);
+  @override
+  void initState() {
+    // debugPrint(
+    //     "Init state of Drawer Home, this is cdwi -> $currentDrawerWidgetIndex");
+    currentDrawerWidgetIndex = _singleton.myCurrentDrawerWidgetIndex;
+    // debugPrint("And this is after Singleton -> $currentDrawerWidgetIndex");
+    super.initState();
+  }
+
+  _changeDrawerWidget(int newWidgetId) => setState(() {
+        currentDrawerWidgetIndex = newWidgetId;
+        _singleton.myCurrentDrawerWidgetIndex = newWidgetId;
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +51,7 @@ class DrawerHomeState extends State<DrawerHome>
 
   Widget currentWidget() {
     int id = currentDrawerWidgetIndex;
+    debugPrint("ID -> $id");
     if (id == 0) {
       return NotesWidget();
     } else if (id == 1) {

@@ -8,10 +8,15 @@ class ShoppingListItem {
   int priority;
   bool checked;
 
+/*
+  List<String> _types = ["food", "chemicals", "cosmetics", "clothes"];
+  List<String> _priorities = ["Low", "Medium", "High"];
+ */
+
   ShoppingListItem(
       {this.title = "Dummy Title",
       this.description = "Some dummy lorem ipsum description here.",
-      this.type = "",
+      this.type = "cosmetics",
       this.priority = 1,
       this.checked: false});
 
