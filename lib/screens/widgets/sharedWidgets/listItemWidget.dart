@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toolbox/etc/icons.dart';
 import 'package:toolbox/models/shopping_list_item.dart';
-import 'package:toolbox/screens/widgets/sharedWidgets/customDialog.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/customExpandingListTile.dart';
 import 'package:toolbox/styles.dart';
 
@@ -372,13 +371,13 @@ class _ListItemWidgetState extends State<ListItemWidget> {
   }
 
   IconData _manageSliType(String type) {
-    if (type == "food") {
+    if (type == "Food") {
       return CustomIcons.food;
-    } else if (type == "chemicals") {
+    } else if (type == "Chemicals") {
       return CustomIcons.beaker;
-    } else if (type == "cosmetics") {
+    } else if (type == "Cosmetics") {
       return Icons.bubble_chart;
-    } else if (type == "clothes") {
+    } else if (type == "Clothes") {
       return CustomIcons.shirt;
     } else {
       return Icons.cancel;

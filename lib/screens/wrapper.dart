@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:toolbox/models/singleton.dart';
 import 'package:toolbox/models/userSingleton.dart';
+import 'package:toolbox/red_cross/authService.dart';
 import 'package:toolbox/red_cross/moneySaver.dart';
 import 'package:toolbox/screens/waitingForVerification.dart';
 import 'drawer_home.dart';
@@ -12,7 +13,7 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserSingleton>(context);
-    String kek = user == null ? "null" : user.readFieldsAsString();
+    String kek = user == null ? "null" : user.toJson().toString();
     debugPrint("Wrapper user (kek): $kek");
 
     if (user == null) {
@@ -34,8 +35,8 @@ class Wrapper extends StatelessWidget {
                 debugPrint("[Wrapper] ConnectionState waiting");
                 return Center(
                   child: Container(
-                    width: 60.0,
-                    height: 60.0,
+                    width: 120.0,
+                    height: 120.0,
                     decoration: BoxDecoration(
                         color: Colors.white, shape: BoxShape.circle),
                     child: Center(
@@ -52,8 +53,8 @@ class Wrapper extends StatelessWidget {
 
                 return Center(
                   child: Container(
-                    width: 60.0,
-                    height: 60.0,
+                    width: 120.0,
+                    height: 120.0,
                     decoration: BoxDecoration(
                         color: Colors.white, shape: BoxShape.circle),
                     child: Center(
@@ -78,8 +79,19 @@ class Wrapper extends StatelessWidget {
                       snapshot.data == "not_null_open_drawer") {
                     return DrawerHome();
                   } else if (snapshot.data == "error_with_user_at_firestore") {
-                    return Center(
-                      child: Text("Error with user at firestore."),
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text("Error with user at firestore."),
+                        RaisedButton(
+                          child: Text("Extreme Log Out"),
+                          onPressed: () {
+                            debugPrint("Extremely logging out");
+                            AuthService().logOut();
+                          },
+                        )
+                      ],
                     );
                   } else {
                     return Center(

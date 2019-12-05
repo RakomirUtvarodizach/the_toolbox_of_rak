@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toolbox/models/providers/shoppingListProvider.dart';
 import 'package:toolbox/models/userSingleton.dart';
 import 'package:toolbox/red_cross/firestoreAttic.dart';
 import 'package:toolbox/red_cross/moneySaver.dart';
@@ -56,8 +59,21 @@ class AuthService {
       AuthResult aResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = aResult.user;
-      await FirestoreAttic(uid: user.uid)
-          .initializeUser(email, firstName, lastName);
+      ShoppingListProvider newSLP = ShoppingListProvider();
+      List<ShoppingListProvider> newSLPProxy = List();
+      newSLPProxy.add(newSLP);
+      UserSingleton us = UserSingleton(
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          shoppingListProvider: newSLP);
+      // await FirestoreAttic(uid: user.uid)
+      //     .initializeUser(email, firstName, lastName);
+
+      debugPrint("User testing new-> ${us.toJson().toString()}");
+      var encodedUs = json.encode(us);
+      var decodedUs = json.decode(encodedUs);
+      await FirestoreAttic().updateUserData(decodedUs, user.uid);
 
       try {
         await user.sendEmailVerification();

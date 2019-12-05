@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toolbox/styles.dart';
 
 class ShoppingListEditor extends StatefulWidget {
   final String appBarTitle;
@@ -11,25 +12,29 @@ class ShoppingListEditor extends StatefulWidget {
 }
 
 class _ShoppingListEditorState extends State<ShoppingListEditor> {
-  static var _priorities = ['High', 'Low'];
-  var _currentHighLow = 'Low';
+  List<String> _types = ["Food", "Chemicals", "Cosmetics", "Clothes"];
+  List<String> _priorities = ["Low", "Medium", "High"];
+  var _currentPriority;
+  var _currentType;
   String appBarTitle;
 
-  TextEditingController _itemController;
+  TextEditingController _titleController;
   TextEditingController _descriptionController;
 
   _ShoppingListEditorState(this.appBarTitle);
 
   @override
   void initState() {
-    _itemController = TextEditingController();
+    _titleController = TextEditingController();
     _descriptionController = TextEditingController();
+    _currentPriority = _priorities[0];
+    _currentType = _types[0];
     super.initState();
   }
 
   @override
   void dispose() {
-    _itemController.dispose();
+    _titleController.dispose();
     _descriptionController.dispose();
     super.dispose();
   }
@@ -50,51 +55,80 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
         padding: EdgeInsets.only(top: 15, left: 10, right: 10),
         child: ListView(
           children: <Widget>[
-            ListTile(
-              leading: Text('Priority: ',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.italic)),
-              title: DropdownButton(
-                items: _priorities.map((String dropDownStringItem) {
-                  return DropdownMenuItem<String>(
-                    value: dropDownStringItem,
-                    child: Text(dropDownStringItem),
-                  );
-                }).toList(),
-                style: TextStyle(
-                    fontSize: 18.0,
-                    fontFamily: 'EB_Garamond',
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.italic),
-                value: _currentHighLow ?? _priorities[1],
-                onChanged: (valueSelectedByUser) {
-                  setState(() {
-                    this._currentHighLow = valueSelectedByUser;
-                    debugPrint('User selected $valueSelectedByUser');
-                  });
-                },
-              ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Center(
+                    child: DropdownButton(
+                      items: _types.map((String dropDownStringItem) {
+                        return DropdownMenuItem<String>(
+                          value: dropDownStringItem,
+                          child: Text(dropDownStringItem),
+                        );
+                      }).toList(),
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'EB_Garamond',
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.italic),
+                      value: _currentType,
+                      onChanged: (valueSelectedByUser) {
+                        setState(() {
+                          this._currentType = valueSelectedByUser;
+                          debugPrint('Type: $valueSelectedByUser');
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 5.0,
+                ),
+                Expanded(
+                  child: Center(
+                    child: DropdownButton(
+                      items: _priorities.map((String dropDownStringItem) {
+                        return DropdownMenuItem<String>(
+                          value: dropDownStringItem,
+                          child: Text(dropDownStringItem),
+                        );
+                      }).toList(),
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'EB_Garamond',
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.italic),
+                      value: _currentPriority,
+                      onChanged: (valueSelectedByUser) {
+                        setState(() {
+                          this._currentPriority = valueSelectedByUser;
+                          debugPrint('Priority: $valueSelectedByUser');
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: TextField(
-                controller: _itemController,
+                controller: _titleController,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
-                  debugPrint('Item: $value');
+                  debugPrint('Title: $value');
                 },
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.lightBlue[200])),
+                        borderSide: BorderSide(color: AccentColor600)),
                     hintText: 'Granice Jogurt',
-                    labelStyle: TextStyle(color: Colors.black54),
+                    hintStyle: TextStyle(color: NeutralColor),
+                    labelStyle: TextStyle(color: NeutralComplementaryColor),
                     errorMaxLines: 2,
-                    errorStyle: TextStyle(fontSize: 16.0),
-                    labelText: 'Item',
+                    errorStyle: TextStyle(fontSize: 16.0, color: Colors.red),
+                    labelText: 'Title',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0))),
               ),
@@ -109,11 +143,12 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                 },
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.lightBlue[200])),
+                        borderSide: BorderSide(color: AccentColor600)),
                     hintText: 'Andrej nemoj kupiti najskuplje mleko',
-                    labelStyle: TextStyle(color: Colors.black54),
+                    hintStyle: TextStyle(color: NeutralColor),
+                    labelStyle: TextStyle(color: NeutralComplementaryColor),
                     errorMaxLines: 2,
-                    errorStyle: TextStyle(fontSize: 16.0),
+                    errorStyle: TextStyle(fontSize: 16.0, color: Colors.red),
                     labelText: 'Description',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0))),
@@ -151,7 +186,7 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
       alphaItems.add(InkWell(
         splashColor: Colors.yellow[500],
         onTap: () {
-          _itemController.text = item;
+          _titleController.text = item;
         },
         child: Card(
             shape: RoundedRectangleBorder(

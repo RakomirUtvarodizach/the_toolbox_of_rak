@@ -6,28 +6,26 @@ part of 'userSingleton.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserSingleton _$UserSingletonFromJson(Map<String, dynamic> json) {
+UserSingleton _$UserSingletonFromJson(Map json) {
   return UserSingleton(
-    uid: json['uid'] as String,
     email: json['email'] as String,
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
-    isVerified: json['isVerified'] as bool,
     imageURL: json['imageURL'] as String,
     shoppingListProvider: json['shoppingListProvider'] == null
         ? null
         : ShoppingListProvider.fromJson(
-            json['shoppingListProvider'] as Map<String, dynamic>),
+            (json['shoppingListProvider'] as Map)?.map(
+            (k, e) => MapEntry(k as String, e),
+          )),
   );
 }
 
 Map<String, dynamic> _$UserSingletonToJson(UserSingleton instance) =>
     <String, dynamic>{
-      'uid': instance.uid,
       'email': instance.email,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
-      'isVerified': instance.isVerified,
       'imageURL': instance.imageURL,
       'shoppingListProvider': instance.shoppingListProvider,
     };

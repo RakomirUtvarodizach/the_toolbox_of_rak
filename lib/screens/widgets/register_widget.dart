@@ -26,6 +26,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
 
@@ -34,6 +35,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _firstNameController.dispose();
     _lastNameController.dispose();
   }
@@ -111,6 +113,27 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         decoration: textInputDecoration.copyWith(
                             hintText: 'Minimum of 8 characters',
                             labelText: 'Password'),
+                      )),
+                  SizedBox(height: 15.0),
+                  Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value != _passwordController.text) {
+                            return "Passwords don't match";
+                          } else
+                            return null;
+                        },
+                        obscureText: true,
+                        keyboardType: TextInputType.visiblePassword,
+                        controller: _confirmPasswordController,
+                        onChanged: (value) {
+                          debugPrint(
+                              'Something changed in Password Text Field');
+                        },
+                        decoration: textInputDecoration.copyWith(
+                            hintText: 'Must match above password',
+                            labelText: 'Confirm Password'),
                       )),
                   SizedBox(height: 15.0),
                   Padding(

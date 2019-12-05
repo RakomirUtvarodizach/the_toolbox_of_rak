@@ -14,7 +14,7 @@ class Singleton {
 
   @override
   String toString() {
-    return "All info from the singleton:\n\tUser: " + user.toMap().toString();
+    return "All info from the singleton:\n\tUser: " + user.toJson().toString();
   }
 
   void disposeOfUser() {

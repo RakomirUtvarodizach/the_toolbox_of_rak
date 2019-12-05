@@ -6,97 +6,97 @@ class TestingData {
         title: "Ono za ciscenje kupatila",
         description: "A boze me sacuvaj znas na sta mislim pobogu",
         priority: 1,
-        type: "chemicals"),
+        type: "Chemicals"),
     ShoppingListItem(
       title: "Jogurt",
       description:
           "Nek bude granice i po mogucstvu da mu rok trajanja ne istice u roku od par dana.",
       priority: 3,
-      type: "food",
+      type: "Food",
     ),
     ShoppingListItem(
         title: "Brasno",
         description: "Da bude t500, treba za hleb bas taj tip.",
         priority: 2,
-        type: "food"),
+        type: "Food"),
     ShoppingListItem(),
     ShoppingListItem(
       title: "Jogurt",
       description:
           "Nek bude granice i po mogucstvu da mu rok trajanja ne istice u roku od par dana.",
       priority: 3,
-      type: "food",
+      type: "Food",
     ),
     ShoppingListItem(
         title: "Brasno",
         description: "Da bude t500, treba za hleb bas taj tip.",
         priority: 2,
-        type: "food"),
+        type: "Food"),
     ShoppingListItem(),
     ShoppingListItem(
       title: "Jogurt",
       description:
           "Nek bude granice i po mogucstvu da mu rok trajanja ne istice u roku od par dana.",
       priority: 3,
-      type: "food",
+      type: "Food",
     ),
     ShoppingListItem(
         title: "Brasno",
         description: "Da bude t500, treba za hleb bas taj tip.",
         priority: 2,
-        type: "food"),
+        type: "Food"),
     ShoppingListItem(),
     ShoppingListItem(
       title: "Jogurt",
       description:
           "Nek bude granice i po mogucstvu da mu rok trajanja ne istice u roku od par dana.",
       priority: 3,
-      type: "food",
+      type: "Food",
     ),
     ShoppingListItem(
         title: "Brasno",
         description: "Da bude t500, treba za hleb bas taj tip.",
         priority: 2,
-        type: "food"),
+        type: "Food"),
     ShoppingListItem(),
     ShoppingListItem(
       title: "Jogurt",
       description:
           "Nek bude granice i po mogucstvu da mu rok trajanja ne istice u roku od par dana.",
       priority: 3,
-      type: "food",
+      type: "Food",
     ),
     ShoppingListItem(
         title: "Brasno",
         description: "Da bude t500, treba za hleb bas taj tip.",
         priority: 2,
-        type: "food"),
+        type: "Food"),
     ShoppingListItem(),
     ShoppingListItem(
       title: "Jogurt",
       description:
           "Nek bude granice i po mogucstvu da mu rok trajanja ne istice u roku od par dana.",
       priority: 3,
-      type: "food",
+      type: "Food",
     ),
     ShoppingListItem(
         title: "Brasno",
         description: "Da bude t500, treba za hleb bas taj tip.",
         priority: 2,
-        type: "food"),
+        type: "Food"),
     ShoppingListItem(),
     ShoppingListItem(
       title: "Jogurt",
       description:
           "Nek bude granice i po mogucstvu da mu rok trajanja ne istice u roku od par dana.",
       priority: 3,
-      type: "food",
+      type: "Food",
     ),
     ShoppingListItem(
         title: "Brasno",
         description: "Da bude t500, treba za hleb bas taj tip.",
         priority: 2,
-        type: "food"),
+        type: "Food"),
     ShoppingListItem()
   ];
 

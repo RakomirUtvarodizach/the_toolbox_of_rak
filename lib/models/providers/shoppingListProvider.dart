@@ -4,14 +4,18 @@ import '../shoppingFriend.dart';
 
 part 'shoppingListProvider.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class ShoppingListProvider {
+  bool doesExist;
   List<ShoppingListItem> localShoppingListItems;
   List<ShoppingFriend> shoppingFriends;
   List<String> recentItems;
 
   ShoppingListProvider(
-      {this.localShoppingListItems, this.shoppingFriends, this.recentItems});
+      {this.localShoppingListItems,
+      this.shoppingFriends,
+      this.recentItems,
+      this.doesExist: true});
 
   factory ShoppingListProvider.fromJson(Map<String, dynamic> json) =>
       _$ShoppingListProviderFromJson(json);

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:toolbox/models/dataThree.dart';
 import 'package:toolbox/models/dataTwo.dart';
+import 'package:toolbox/models/providers/shoppingListProvider.dart';
+import 'package:toolbox/models/userSingleton.dart';
 import 'package:toolbox/red_cross/firestoreAttic.dart';
 import 'package:toolbox/red_cross/localStorageAttic.dart';
 import 'package:toolbox/red_cross/secureStorageAttic.dart';
@@ -275,19 +277,79 @@ class _DatabaseTestingState extends State<DatabaseTesting> {
                         debugPrint(
                             "d2frommed -> ${d2frommed.listOfTwosInThree.toString()}");
 
+                        /*
+                        var encoding = json.encode(AnObject);
+                        var decoding = json.decode(encoding);
+                        var object = AnObject.fromJson(decoding);
+                         */
                         // FirestoreAttic()
                         //     .faSetDocument(d2decoded, "testing_data");
 
-                        // await FirestoreAttic()
-                        //     .faGetDocumentById(
-                        //         "T806cVAZUYSRkyKoe2yn", "testing_data")
-                        //     .then((DocumentSnapshot snapshot) {
-                        //   debugPrint("Snapshot: ${snapshot.data}");
-                        // });
-                        // debugPrint("After read");
+                        await FirestoreAttic()
+                            .faGetDocumentById(
+                                "testing_data", "T806cVAZUYSRkyKoe2yn")
+                            .then((DocumentSnapshot snapshot) {
+                          debugPrint("Snapshot: ${snapshot.data}");
+                        });
+                        debugPrint("After read");
                       },
                       child: Text(
                         "Map testing",
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    RaisedButton(
+                      color: Colors.brown,
+                      shape: BeveledRectangleBorder(
+                        side: BorderSide(width: 2.0, color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        ShoppingListProvider newSLP = ShoppingListProvider();
+                        List<ShoppingListProvider> newSLPProxy = [];
+                        newSLPProxy.add(newSLP);
+                        UserSingleton us = UserSingleton(
+                            email: "boban_marlovic@gmail.com",
+                            firstName: "Boban",
+                            lastName: "Marlovic",
+                            shoppingListProvider: newSLP);
+
+                        var encodedUs = json.encode(us);
+
+                        var decodedUs = json.decode(encodedUs);
+
+                        debugPrint(
+                            "User testing new-> ${us.toJson().toString()}");
+
+                        await FirestoreAttic().updateUserData(
+                            decodedUs, "testingfirestorejson1234567890");
+                        debugPrint("Writing done");
+                      },
+                      child: Text(
+                        "FireStore Json Write",
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    RaisedButton(
+                      color: Colors.brown,
+                      shape: BeveledRectangleBorder(
+                        side: BorderSide(width: 2.0, color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        await FirestoreAttic()
+                            .faGetDocumentById(
+                                "users", "testingfirestorejson1234567890")
+                            .then((DocumentSnapshot snapshot) {
+                          debugPrint("TomTom snapshot: ${snapshot.data}");
+                          var d2frommed = UserSingleton.fromJson(snapshot.data);
+                          debugPrint("d2frommed -> ${d2frommed.toJson()}");
+                          debugPrint(
+                              "gettting does exist: ${d2frommed.shoppingListProvider.doesExist}");
+                        });
+                      },
+                      child: Text(
+                        "FireStore Json Get",
                         style: TextStyle(fontSize: 20.0, color: Colors.white),
                       ),
                     ),

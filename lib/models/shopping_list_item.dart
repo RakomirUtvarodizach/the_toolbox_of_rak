@@ -16,7 +16,7 @@ class ShoppingListItem {
   ShoppingListItem(
       {this.title = "Dummy Title",
       this.description = "Some dummy lorem ipsum description here.",
-      this.type = "cosmetics",
+      this.type = "Clothes",
       this.priority = 1,
       this.checked: false});
 

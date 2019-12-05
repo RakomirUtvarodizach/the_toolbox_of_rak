@@ -8,13 +8,18 @@ import 'package:toolbox/models/providers/weightTrackerProvider.dart';
 
 part 'userSingleton.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class UserSingleton {
+  @JsonKey(ignore: true)
   final String uid;
+
   String email;
   String firstName;
   String lastName;
+
+  @JsonKey(ignore: true)
   bool isVerified;
+
   String imageURL;
   //HabitTrackerProvider habitTrackerProvider;
   //NotesProvider notesProvider;
@@ -38,14 +43,19 @@ class UserSingleton {
     //this.weightTrackerProvider,
   });
 
-  Map toMap() {
-    return {
-      'email': email,
-      'firstName': firstName,
-      'lastName': lastName,
-      'isVerified': isVerified
-    };
-  }
+  // Map toMap() {
+  //   return {
+  //     'email': email,
+  //     'firstName': firstName,
+  //     'lastName': lastName,
+  //     'isVerified': isVerified
+  //   };
+  // }
+
+  factory UserSingleton.fromJson(Map<String, dynamic> json) =>
+      _$UserSingletonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserSingletonToJson(this);
 
   String readFieldsAsString() {
     return "email -> $email\nfirstName -> $firstName\nlastName -> $lastName\nisVerified -> " +

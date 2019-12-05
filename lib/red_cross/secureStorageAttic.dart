@@ -10,6 +10,10 @@ class SecureStorageAttic {
     storage = FlutterSecureStorage();
   }
 
+  // var encoding = json.encode(AnObject);
+  // var decoding = json.decode(encoding);
+  // var object = AnObject.fromJson(decoding);
+
   Future<dynamic> readValue(String key) async {
     String value = await storage.read(key: key);
     if (value == null) {
