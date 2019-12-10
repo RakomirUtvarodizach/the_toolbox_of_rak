@@ -69,8 +69,7 @@ class HomeWidget extends StatelessWidget {
             RaisedButton(
               elevation: 6.0,
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => DatabaseTesting()));
+                Navigator.of(context).pushNamed('/database_testing');
               },
               textColor: Colors.red,
               shape: RoundedRectangleBorder(

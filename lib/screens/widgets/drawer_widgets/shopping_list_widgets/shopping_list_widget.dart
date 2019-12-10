@@ -5,8 +5,7 @@ import 'package:toolbox/screens/widgets/drawer_widgets/shopping_list_widgets/sho
 import 'package:toolbox/screens/widgets/sharedWidgets/extraWidgets.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/listItemWidget.dart';
 import 'dart:math' as math;
-import 'package:toolbox/shared_utils/testingData.dart';
-import 'package:toolbox/styles.dart';
+import 'package:toolbox/etc/styles.dart';
 
 class ShoppingListWidget extends StatefulWidget {
   @override
@@ -80,6 +79,12 @@ class _ShoppingListState extends State<ShoppingListWidget>
     super.dispose();
   }
 
+  Future<void> refreshList() {
+    return Future.delayed(Duration(seconds: 1), () {
+      debugPrint("Refreshing list");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     TabBar _shoppingListsTabBar = TabBar(
@@ -123,11 +128,8 @@ class _ShoppingListState extends State<ShoppingListWidget>
                     } else {
                       _fabController.reverse();
                     }
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ShoppingListEditorView()));
-                    /*Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            ShoppingListEditor('Add a new item')));*/
+                    Navigator.of(context)
+                        .pushNamed('/shopping_list_editor_view');
                   },
                 ),
               ),
@@ -195,21 +197,29 @@ class _ShoppingListState extends State<ShoppingListWidget>
         body: TabBarView(
           controller: _shoppingListsController,
           children: <Widget>[
-            (_localListItems == null || _localListItems.isEmpty)
-                ? Center(
-                    child: Text(
-                      "Your local shopping list is empty.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: LightComplementaryColor600,
-                          letterSpacing: 1,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w700,
-                          fontSize: LargeTextSize),
-                    ),
-                  )
-                : Container(
-                    child: ListView.builder(
+            RefreshIndicator(
+              onRefresh: refreshList,
+              child: (_localListItems == null || _localListItems.isEmpty)
+                  ? GridView.count(
+                      crossAxisCount: 1,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: <Widget>[
+                        Center(
+                          child: Text(
+                            "Your local shopping list is empty.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: LightComplementaryColor600,
+                                letterSpacing: 1,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w700,
+                                fontSize: LargeTextSize),
+                          ),
+                        )
+                      ],
+                    )
+                  : ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       controller: _scrollController,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -222,9 +232,11 @@ class _ShoppingListState extends State<ShoppingListWidget>
                         );
                       },
                     ),
-                  ),
-            Container(
+            ),
+            RefreshIndicator(
+              onRefresh: refreshList,
               child: GridView.count(
+                physics: const AlwaysScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 children: <Widget>[
                   ListItemWidget(),

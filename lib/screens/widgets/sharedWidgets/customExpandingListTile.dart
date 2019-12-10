@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../styles.dart';
+import 'package:toolbox/etc/styles.dart';
 
 class CustomExpandingListTile extends StatefulWidget {
   final Widget leading, title, subtitle, trailing;

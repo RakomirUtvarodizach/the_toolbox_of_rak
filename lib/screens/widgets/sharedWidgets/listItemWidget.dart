@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toolbox/etc/icons.dart';
 import 'package:toolbox/models/shopping_list_item.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/customExpandingListTile.dart';
-import 'package:toolbox/styles.dart';
+import 'package:toolbox/etc/styles.dart';
 
 class ListItemWidget extends StatefulWidget {
   final AssetImage image;

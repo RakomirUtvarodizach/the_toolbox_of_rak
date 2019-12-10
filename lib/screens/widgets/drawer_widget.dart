@@ -94,18 +94,13 @@ class _DrawerWidgetState extends State<DrawerWidget>
         ListTile(
           onTap: () {
             Navigator.of(context).pop();
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return SettingsWidget();
-            }));
+            Navigator.pushNamed(context, '/settings');
           },
           leading: Icon(Icons.settings),
           title: Text('Settings'),
         ),
         ListTile(
           onTap: () async {
-            /*Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => Wrapper()),
-                (Route<dynamic> route) => false);*/
             //TODO ALWAYS CLOSE THE DRAWER BEFORE LOGGING OUT OR ELSE AN ANNOYING AS FUCK ERROR WILL OCCUR.
             Navigator.of(context).pop();
             _authService.logOut();

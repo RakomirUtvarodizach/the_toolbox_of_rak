@@ -151,6 +151,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 await _authService.logInWithEmailAndPassword(
                                     _emailController.text,
                                     _passwordController.text);
+                            debugPrint("[Login] Awaited result $result");
                             if (result == null) {
                               debugPrint(
                                   'An error occured, the user with these credentials most likely does not exist.');
@@ -161,27 +162,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                               });
                             } else {
                               debugPrint("Navigator would push and pop all.");
-                              // Navigator.of(context).pushAndRemoveUntil(
-                              //     MaterialPageRoute(
-                              //         builder: (context) => Wrapper()),
-                              //     (Route<dynamic> route) => false);
+                              
                             }
                           }
-                          /*setState(() {
-                        if (_loginFormKey.currentState.validate()) {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return DrawerHome();
-                          }));
-                        }
-                      });*/
-                          /*Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return DrawerHome();
-                      }));
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => DrawerHome()),
-                          (Route<dynamic> route) => false);*/
+                          
                         },
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(

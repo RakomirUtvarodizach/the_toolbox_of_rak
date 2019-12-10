@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../styles.dart';
+import 'package:toolbox/etc/styles.dart';
 
 class CloudCard extends StatefulWidget {
   List<List<String>> listOfDropDownLists;

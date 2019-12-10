@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:toolbox/styles.dart';
+import 'package:toolbox/etc/styles.dart';
 
 class ShoppingListEditor extends StatefulWidget {
-  final String appBarTitle;
-
-  ShoppingListEditor(this.appBarTitle);
+  ShoppingListEditor();
 
   @override
-  _ShoppingListEditorState createState() =>
-      _ShoppingListEditorState(this.appBarTitle);
+  _ShoppingListEditorState createState() => _ShoppingListEditorState();
 }
 
 class _ShoppingListEditorState extends State<ShoppingListEditor> {
@@ -16,12 +13,11 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
   List<String> _priorities = ["Low", "Medium", "High"];
   var _currentPriority;
   var _currentType;
-  String appBarTitle;
 
   TextEditingController _titleController;
   TextEditingController _descriptionController;
 
-  _ShoppingListEditorState(this.appBarTitle);
+  _ShoppingListEditorState();
 
   @override
   void initState() {
@@ -49,7 +45,7 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
             onPressed: () {},
           )
         ],
-        title: Text(appBarTitle),
+        title: Text('Add a new item'),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 15, left: 10, right: 10),
