@@ -47,6 +47,15 @@ class _ShoppingListEditorViewState extends State<ShoppingListEditorView>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    for (int i = 0; i < _liveEditingOfListItems.length; i++) {
+      _liveEditingOfListItems[i]['title_controller'].dispose();
+      _liveEditingOfListItems[i]['description_controller'].dispose();
+    }
+    super.dispose();
+  }
+
   String convertPriority(int priorityNumber) {
     switch (priorityNumber) {
       case 1:

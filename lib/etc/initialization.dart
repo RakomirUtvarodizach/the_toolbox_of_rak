@@ -1,4 +1,3 @@
-import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toolbox/etc/styles.dart';
@@ -13,34 +12,26 @@ import 'custom_routes.dart';
 PageRouteBuilder routeManaging(String routeName) {
   switch (routeName) {
     case '/wrapper':
-      return SlideRightFadeRoute(widget: Wrapper());
+      return GrowShrinkRoute(widget: Wrapper());
       break;
     case '/home':
-      return SlideRightFadeRoute(widget: Home());
+      return GrowShrinkRoute(widget: Home());
       break;
     case '/settings':
-      return SlideRightFadeRoute(widget: SettingsWidget());
+      return GrowShrinkRoute(widget: SettingsWidget());
       break;
     case '/shopping_list_editor':
-      return FlareFadeRoute(widget: ShoppingListEditor());
+      return GrowShrinkRoute(widget: ShoppingListEditor());
       break;
-    // case '/shopping_list_editor_view':
-    // return MaterialPageRoute(builder:(context)=>SplashScreen.navigate(
-    //           name: 'assets/grow_shrink_page_transition.flr',
-    //           next: (context) => ShoppingListEditorView(),
-    //           until: () => Future.delayed(Duration(milliseconds: 500)),
-    //           startAnimation: 'go',
-    //           fit: BoxFit.fitHeight,
-    //         ),);
-    // break;
+
     case '/shopping_list_editor_view':
-      return FlareFadeRoute(widget: ShoppingListEditorView());
+      return GrowShrinkRoute(widget: ShoppingListEditorView());
       break;
     case '/database_testing':
-      return SlideRightFadeRoute(widget: DatabaseTesting());
+      return GrowShrinkRoute(widget: DatabaseTesting());
       break;
     default:
-      return SlideRightFadeRoute(
+      return GrowShrinkRoute(
           widget: Container(
         color: DarkColor,
         child: Center(

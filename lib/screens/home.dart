@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
-import 'package:toolbox/screens/animations/custom_rotation_transition.dart';
 import 'package:toolbox/screens/animations/grow_transition.dart';
 import 'package:toolbox/screens/widgets/login_widget.dart';
 import 'package:toolbox/screens/widgets/register_widget.dart';

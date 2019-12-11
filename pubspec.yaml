@@ -32,7 +32,6 @@ dependencies:
   provider: ^3.1.0+1
   flutter_spinkit: "^4.0.0"
   flare_flutter: any
-  flare_splash_screen: ^3.0.0
 
   # path_provider_fde:
   #   git:
