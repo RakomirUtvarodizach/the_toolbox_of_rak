@@ -68,7 +68,7 @@ class GrowShrinkRoute extends PageRouteBuilder {
                 Animation<double> secondaryAnimation) {
               return widget;
             },
-            transitionDuration: Duration(milliseconds: 1000),
+            transitionDuration: Duration(seconds: 1),
             transitionsBuilder: (BuildContext context,
                 Animation<double> animation,
                 Animation<double> secondaryAnimation,
@@ -109,7 +109,8 @@ class GrowShrinkRoute extends PageRouteBuilder {
                             height: height,
                             width: height,
                             decoration: BoxDecoration(
-                                color: AccentColor, shape: BoxShape.circle),
+                                color: ComplementaryColor500,
+                                shape: BoxShape.circle),
                           ),
                         ),
                       ),

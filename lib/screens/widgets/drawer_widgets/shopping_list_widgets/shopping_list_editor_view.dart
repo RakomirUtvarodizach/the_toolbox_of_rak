@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:toolbox/etc/styles.dart';
 import 'package:toolbox/models/shopping_list_item.dart';
 import 'package:toolbox/models/singleton.dart';
-import 'package:toolbox/screens/widgets/drawer_widgets/shopping_list_widgets/shopping_list_editor.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/customFab.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/diamondBorder.dart';
 
@@ -24,24 +23,10 @@ class _ShoppingListEditorViewState extends State<ShoppingListEditorView>
   @override
   void initState() {
     _singleton = Singleton();
-    _localListItems =
-        _singleton.user.shoppingListProvider.localShoppingListItems;
+    refreshThisList();
     if (_localListItems != null) {
       for (var i = 0; i < _localListItems.length; i++) {
-        //
-        HashMap newListItem = HashMap<String, dynamic>();
-        newListItem['type'] = _localListItems[i].type;
-        newListItem['priority'] = convertPriority(_localListItems[i].priority);
-        var titleTextEditingController =
-            new TextEditingController(text: (_localListItems[i].title));
-        newListItem['title_controller'] = titleTextEditingController;
-        var descriptionTextEditingController =
-            new TextEditingController(text: (_localListItems[i].description));
-        newListItem['description_controller'] =
-            descriptionTextEditingController;
-        _liveEditingOfListItems.add(newListItem);
-        debugPrint(
-            'Element $i: \n\tType-> ${_liveEditingOfListItems[i]['type']},\n\tPriority-> ${_liveEditingOfListItems[i]['priority']},\n\tTitle-> ${_liveEditingOfListItems[i]['title_controller'].text},\n\tDescription-> ${_liveEditingOfListItems[i]['description_controller'].text}');
+        setUpLiveEditing();
       }
     }
     super.initState();
@@ -53,6 +38,9 @@ class _ShoppingListEditorViewState extends State<ShoppingListEditorView>
       _liveEditingOfListItems[i]['title_controller'].dispose();
       _liveEditingOfListItems[i]['description_controller'].dispose();
     }
+    debugPrint("{}{}{}{}{}{} Editing is done");
+    _singleton.user.shoppingListProvider.itemsBeingEdited?.clear();
+    _singleton.user.shoppingListProvider.isEditing = false;
     super.dispose();
   }
 
@@ -67,6 +55,50 @@ class _ShoppingListEditorViewState extends State<ShoppingListEditorView>
         break;
       default:
         return 'Low';
+    }
+  }
+
+  void refreshThisList() {
+    bool _navStatus = _singleton.user.shoppingListProvider.isEditing;
+    if (_navStatus) {
+      debugPrint("{}}{{}{}{}{}{} Editing in progress");
+      _localListItems = _singleton.user.shoppingListProvider.itemsBeingEdited;
+    } else {
+      debugPrint("{}{}{}{}{}{}{} Editing starting");
+      _singleton.user.shoppingListProvider.itemsBeingEdited =
+          _singleton.user.shoppingListProvider.localShoppingListItems;
+      _localListItems = _singleton.user.shoppingListProvider.itemsBeingEdited;
+      _singleton.user.shoppingListProvider.isEditing = true;
+    }
+  }
+
+  void setUpLiveEditing() {
+    HashMap newListItem = HashMap<String, dynamic>();
+    int i = _localListItems.length - 1;
+    newListItem['type'] = _localListItems[i].type;
+    newListItem['priority'] = convertPriority(_localListItems[i].priority);
+    var titleTextEditingController =
+        new TextEditingController(text: (_localListItems[i].title));
+    newListItem['title_controller'] = titleTextEditingController;
+    var descriptionTextEditingController =
+        new TextEditingController(text: (_localListItems[i].description));
+    newListItem['description_controller'] = descriptionTextEditingController;
+    _liveEditingOfListItems.add(newListItem);
+    debugPrint(
+        'Element $i: \n\tType-> ${_liveEditingOfListItems[i]['type']},\n\tPriority-> ${_liveEditingOfListItems[i]['priority']},\n\tTitle-> ${_liveEditingOfListItems[i]['title_controller'].text},\n\tDescription-> ${_liveEditingOfListItems[i]['description_controller'].text}');
+  }
+
+  Color colourize(int index) {
+    switch (2) {
+      // Needs tinkering
+      case 0:
+        return Colors.white;
+      case -1:
+        return Colors.red[200];
+      case 2:
+        return Colors.green[200];
+      default:
+        return Colors.white;
     }
   }
 
@@ -242,8 +274,16 @@ class _ShoppingListEditorViewState extends State<ShoppingListEditorView>
                 ),
           floatingActionButton: CustomFab(
             onPressed: () {
-              debugPrint("Going to create a new item.");
-              Navigator.of(context).pushNamed('/shopping_list_editor');
+              Navigator.of(context)
+                  .pushNamed('/shopping_list_editor')
+                  .then((_) {
+                setState(() {
+                  refreshThisList();
+                  if (_localListItems != null) {
+                    setUpLiveEditing();
+                  }
+                });
+              });
             },
             color: AccentColor500,
             child: Icon(Icons.playlist_add),

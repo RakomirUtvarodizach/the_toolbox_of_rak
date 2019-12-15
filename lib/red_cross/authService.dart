@@ -19,7 +19,7 @@ class AuthService {
 
   //auth change user stream
   Stream<UserSingleton> get user {
-    var authUser = _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+    debugPrint("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFAuthenticating");
     return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
   }
 
@@ -60,8 +60,6 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = aResult.user;
       ShoppingListProvider newSLP = ShoppingListProvider();
-      List<ShoppingListProvider> newSLPProxy = List();
-      newSLPProxy.add(newSLP);
       UserSingleton us = UserSingleton(
           email: email,
           firstName: firstName,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:toolbox/etc/styles.dart';
+import 'package:toolbox/models/shopping_list_item.dart';
+import 'package:toolbox/models/singleton.dart';
+import 'package:toolbox/shared_utils/decorations.dart';
 
 class ShoppingListEditor extends StatefulWidget {
   ShoppingListEditor();
@@ -13,6 +16,9 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
   List<String> _priorities = ["Low", "Medium", "High"];
   var _currentPriority;
   var _currentType;
+  Singleton _singleton;
+  var _recentItems;
+  bool _validateTitle;
 
   TextEditingController _titleController;
   TextEditingController _descriptionController;
@@ -21,7 +27,10 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
 
   @override
   void initState() {
+    _singleton = Singleton();
+    _recentItems = _singleton.user.shoppingListProvider.recentItems;
     _titleController = TextEditingController();
+    _validateTitle = false;
     _descriptionController = TextEditingController();
     _currentPriority = _priorities[0];
     _currentType = _types[0];
@@ -42,7 +51,32 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () {},
+            onPressed: () {
+              if (_titleController.text.isEmpty) {
+                setState(() {
+                  _validateTitle = true;
+                });
+              } else {
+                ShoppingListItem _newItem = ShoppingListItem(
+                    title: _titleController.text.trim(),
+                    description: _descriptionController.text.trim(),
+                    type: _currentType,
+                    priority: returnPriority());
+                if (_singleton.user.shoppingListProvider.itemsBeingEdited ==
+                    null) {
+                  List<ShoppingListItem> slil = [];
+                  slil.add(_newItem);
+                  _singleton.user.shoppingListProvider.itemsBeingEdited = slil;
+                } else {
+                  _singleton.user.shoppingListProvider.itemsBeingEdited
+                      .add(_newItem);
+                }
+
+                _singleton.user.shoppingListProvider
+                    .editRecentItems(_newItem.title);
+                Navigator.of(context).pop();
+              }
+            },
           )
         ],
         title: Text('Add a new item'),
@@ -115,18 +149,30 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
                   debugPrint('Title: $value');
+                  if (value.isNotEmpty && _validateTitle) {
+                    setState(() {
+                      _validateTitle = false;
+                    });
+                  }
                 },
-                decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AccentColor600)),
-                    hintText: 'Granice Jogurt',
-                    hintStyle: TextStyle(color: NeutralColor),
-                    labelStyle: TextStyle(color: NeutralComplementaryColor),
-                    errorMaxLines: 2,
-                    errorStyle: TextStyle(fontSize: 16.0, color: Colors.red),
-                    labelText: 'Title',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
+                decoration: textInputDecoration.copyWith(
+                  hintText: 'Granice Jogurt',
+                  labelText: 'Title',
+                  errorText: _validateTitle ? "Title must not be empty." : null,
+                ),
+                // decoration: InputDecoration(
+                //     focusedBorder: OutlineInputBorder(
+                //         borderSide: BorderSide(color: AccentColor600)),
+                //     hintText: 'Granice Jogurt',
+                //     hintStyle: TextStyle(color: NeutralColor),
+                //     labelStyle: TextStyle(color: NeutralComplementaryColor),
+                //     errorMaxLines: 2,
+                //     errorStyle: TextStyle(fontSize: 16.0, color: Colors.red),
+                //     errorText:
+                //         _validateTitle ? "Title must not be empty." : null,
+                //     labelText: 'Title',
+                //     border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(5.0))),
               ),
             ),
             Padding(
@@ -137,17 +183,21 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                 onChanged: (value) {
                   debugPrint('Description: $value');
                 },
-                decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AccentColor600)),
-                    hintText: 'Andrej nemoj kupiti najskuplje mleko',
-                    hintStyle: TextStyle(color: NeutralColor),
-                    labelStyle: TextStyle(color: NeutralComplementaryColor),
-                    errorMaxLines: 2,
-                    errorStyle: TextStyle(fontSize: 16.0, color: Colors.red),
-                    labelText: 'Description',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
+                decoration: textInputDecoration.copyWith(
+                  hintText: 'Andrej nemoj kupiti najskuplje mleko',
+                  labelText: 'Description',
+                ),
+                // decoration: InputDecoration(
+                //     focusedBorder: OutlineInputBorder(
+                //         borderSide: BorderSide(color: AccentColor600)),
+                //     hintText: 'Andrej nemoj kupiti najskuplje mleko',
+                //     hintStyle: TextStyle(color: NeutralColor),
+                //     labelStyle: TextStyle(color: NeutralComplementaryColor),
+                //     errorMaxLines: 2,
+                //     errorStyle: TextStyle(fontSize: 16.0, color: Colors.red),
+                //     labelText: 'Description',
+                //     border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(5.0))),
               ),
             ),
             Divider(),
@@ -159,15 +209,38 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                           fontWeight: FontWeight.w600, fontSize: 25))),
             ),
             Container(
-              child: possibleItems() ??
-                  Center(
-                    child: Text("No items to suggest ¯\\_( ツ )_/¯ ",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FontStyle.italic,
-                            fontSize: 37)),
-                  ),
+              child: (_recentItems != null && _recentItems.length > 0)
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _recentItems.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          splashColor: Colors.yellow[500],
+                          onTap: () {
+                            _titleController.text = _recentItems[index];
+                          },
+                          child: Card(
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.yellow[500],
+                                      width: 2.0,
+                                      style: BorderStyle.solid)),
+                              color: Colors.white,
+                              elevation: 2.0,
+                              child: ListTile(
+                                title: Text(_recentItems[index]),
+                              )),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text("No items to suggest ¯\\_( ツ )_/¯ ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.italic,
+                              fontSize: 37)),
+                    ),
             ),
           ],
         ),
@@ -175,31 +248,21 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
     );
   }
 
-  possibleItems() {
-    var alphaItems = List<Widget>();
-    var items = ['Jogurt Granice', 'Krilca', 'Ovsene', 'Kifla', 'Mleko'];
-    for (var item in items) {
-      alphaItems.add(InkWell(
-        splashColor: Colors.yellow[500],
-        onTap: () {
-          _titleController.text = item;
-        },
-        child: Card(
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: Colors.yellow[500],
-                    width: 2.0,
-                    style: BorderStyle.solid)),
-            color: Colors.white,
-            elevation: 2.0,
-            child: ListTile(
-              title: Text(item),
-            )),
-      ));
-    }
+  int returnPriority() {
+    switch (_currentPriority) {
+      case "Low":
+        return 1;
+        break;
+      case "Medimu":
+        return 2;
+        break;
+      case "High":
+        return 3;
+        break;
 
-    return Padding(
-        padding: EdgeInsets.only(bottom: 15),
-        child: Column(children: alphaItems));
+      default:
+        return 1;
+        break;
+    }
   }
 }

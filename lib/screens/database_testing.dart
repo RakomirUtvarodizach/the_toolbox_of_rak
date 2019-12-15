@@ -344,8 +344,6 @@ class _DatabaseTestingState extends State<DatabaseTesting> {
                           debugPrint("TomTom snapshot: ${snapshot.data}");
                           var d2frommed = UserSingleton.fromJson(snapshot.data);
                           debugPrint("d2frommed -> ${d2frommed.toJson()}");
-                          debugPrint(
-                              "gettting does exist: ${d2frommed.shoppingListProvider.doesExist}");
                         });
                       },
                       child: Text(

@@ -12,7 +12,6 @@ ShoppingListItem _$ShoppingListItemFromJson(Map<String, dynamic> json) {
     description: json['description'] as String,
     type: json['type'] as String,
     priority: json['priority'] as int,
-    checked: json['checked'] as bool,
   );
 }
 
@@ -22,5 +21,4 @@ Map<String, dynamic> _$ShoppingListItemToJson(ShoppingListItem instance) =>
       'description': instance.description,
       'type': instance.type,
       'priority': instance.priority,
-      'checked': instance.checked,
     };

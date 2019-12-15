@@ -186,10 +186,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             });
                             dynamic result =
                                 await _authService.registerWithEmailAndPassword(
-                                    _emailController.text,
-                                    _passwordController.text,
-                                    _firstNameController.text,
-                                    _lastNameController.text);
+                                    _emailController.text.trim(),
+                                    _passwordController.text.trim(),
+                                    _firstNameController.text.trim(),
+                                    _lastNameController.text.trim());
                             if (result == null) {
                               debugPrint(
                                   'Error occured while registering a user with acquired email and password.');

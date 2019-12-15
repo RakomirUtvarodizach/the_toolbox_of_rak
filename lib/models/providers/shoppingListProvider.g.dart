@@ -24,14 +24,12 @@ ShoppingListProvider _$ShoppingListProviderFromJson(Map json) {
         ?.toList(),
     recentItems:
         (json['recentItems'] as List)?.map((e) => e as String)?.toList(),
-    doesExist: json['doesExist'] as bool,
   );
 }
 
 Map<String, dynamic> _$ShoppingListProviderToJson(
         ShoppingListProvider instance) =>
     <String, dynamic>{
-      'doesExist': instance.doesExist,
       'localShoppingListItems': instance.localShoppingListItems,
       'shoppingFriends': instance.shoppingFriends,
       'recentItems': instance.recentItems,
