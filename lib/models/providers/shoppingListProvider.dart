@@ -15,21 +15,36 @@ class ShoppingListProvider {
   List<ShoppingListItem> itemsBeingEdited;
 
   @JsonKey(ignore: true)
-  bool isEditing;
+  bool editing;
+
+  // @JsonKey(ignore: true)
+  // bool isThereANewItem;
+
+  @JsonKey(ignore: true)
+  ShoppingListItem newEditingItem;
 
   ShoppingListProvider(
       {this.localShoppingListItems,
       this.shoppingFriends,
       this.recentItems,
       this.itemsBeingEdited,
-      this.isEditing: false});
+      this.editing: false,
+      // this.isThereANewItem: false,
+      this.newEditingItem}) {
+    if (localShoppingListItems == null) {
+      localShoppingListItems = List();
+    }
+    if (itemsBeingEdited == null) {
+      itemsBeingEdited = List();
+    }
+  }
 
   factory ShoppingListProvider.fromJson(Map<String, dynamic> json) =>
       _$ShoppingListProviderFromJson(json);
 
   Map<String, dynamic> toJson() => _$ShoppingListProviderToJson(this);
 
-  void editRecentItems(String newItem) {
+  void updateRecentItems(String newItem) {
     if (recentItems == null) {
       List<String> sl = [];
       sl.add(newItem);

@@ -57,23 +57,21 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                   _validateTitle = true;
                 });
               } else {
+                debugPrint(
+                    "[SLE] BEFORE SHOPING NEW ITEM IS CREATED ${_singleton.user.shoppingListProvider.localShoppingListItems.toString()}");
                 ShoppingListItem _newItem = ShoppingListItem(
                     title: _titleController.text.trim(),
                     description: _descriptionController.text.trim(),
                     type: _currentType,
                     priority: returnPriority());
-                if (_singleton.user.shoppingListProvider.itemsBeingEdited ==
-                    null) {
-                  List<ShoppingListItem> slil = [];
-                  slil.add(_newItem);
-                  _singleton.user.shoppingListProvider.itemsBeingEdited = slil;
-                } else {
-                  _singleton.user.shoppingListProvider.itemsBeingEdited
-                      .add(_newItem);
-                }
-
+                debugPrint("New object -> ${_newItem.toJson().toString()}");
+                _singleton.user.shoppingListProvider.newEditingItem = _newItem;
+                debugPrint(
+                    "New item from singleton -> ${_singleton.user.shoppingListProvider.newEditingItem.toJson()}");
                 _singleton.user.shoppingListProvider
-                    .editRecentItems(_newItem.title);
+                    .updateRecentItems(_newItem.title);
+                debugPrint(
+                    "[SLE] AFTER EDIT RECENT ITEMS ${_singleton.user.shoppingListProvider.localShoppingListItems.toString()}");
                 Navigator.of(context).pop();
               }
             },
@@ -106,7 +104,7 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                       onChanged: (valueSelectedByUser) {
                         setState(() {
                           this._currentType = valueSelectedByUser;
-                          debugPrint('Type: $valueSelectedByUser');
+                          // debugPrint('Type: $valueSelectedByUser');
                         });
                       },
                     ),
@@ -134,7 +132,7 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                       onChanged: (valueSelectedByUser) {
                         setState(() {
                           this._currentPriority = valueSelectedByUser;
-                          debugPrint('Priority: $valueSelectedByUser');
+                          // debugPrint('Priority: $valueSelectedByUser');
                         });
                       },
                     ),
@@ -148,7 +146,7 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                 controller: _titleController,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
-                  debugPrint('Title: $value');
+                  // debugPrint('Title: $value');
                   if (value.isNotEmpty && _validateTitle) {
                     setState(() {
                       _validateTitle = false;
@@ -160,19 +158,6 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                   labelText: 'Title',
                   errorText: _validateTitle ? "Title must not be empty." : null,
                 ),
-                // decoration: InputDecoration(
-                //     focusedBorder: OutlineInputBorder(
-                //         borderSide: BorderSide(color: AccentColor600)),
-                //     hintText: 'Granice Jogurt',
-                //     hintStyle: TextStyle(color: NeutralColor),
-                //     labelStyle: TextStyle(color: NeutralComplementaryColor),
-                //     errorMaxLines: 2,
-                //     errorStyle: TextStyle(fontSize: 16.0, color: Colors.red),
-                //     errorText:
-                //         _validateTitle ? "Title must not be empty." : null,
-                //     labelText: 'Title',
-                //     border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(5.0))),
               ),
             ),
             Padding(
@@ -181,23 +166,12 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
                 controller: _descriptionController,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
-                  debugPrint('Description: $value');
+                  // debugPrint('Description: $value');
                 },
                 decoration: textInputDecoration.copyWith(
                   hintText: 'Andrej nemoj kupiti najskuplje mleko',
                   labelText: 'Description',
                 ),
-                // decoration: InputDecoration(
-                //     focusedBorder: OutlineInputBorder(
-                //         borderSide: BorderSide(color: AccentColor600)),
-                //     hintText: 'Andrej nemoj kupiti najskuplje mleko',
-                //     hintStyle: TextStyle(color: NeutralColor),
-                //     labelStyle: TextStyle(color: NeutralComplementaryColor),
-                //     errorMaxLines: 2,
-                //     errorStyle: TextStyle(fontSize: 16.0, color: Colors.red),
-                //     labelText: 'Description',
-                //     border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(5.0))),
               ),
             ),
             Divider(),
@@ -252,17 +226,12 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
     switch (_currentPriority) {
       case "Low":
         return 1;
-        break;
-      case "Medimu":
+      case "Medium":
         return 2;
-        break;
       case "High":
         return 3;
-        break;
-
       default:
         return 1;
-        break;
     }
   }
 }

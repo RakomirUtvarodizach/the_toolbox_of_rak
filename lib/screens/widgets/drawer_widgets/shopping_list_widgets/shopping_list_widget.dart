@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:toolbox/models/shopping_list_item.dart';
 import 'package:toolbox/models/singleton.dart';
-import 'package:toolbox/screens/widgets/drawer_widgets/shopping_list_widgets/shopping_list_editor_view.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/extraWidgets.dart';
 import 'package:toolbox/screens/widgets/sharedWidgets/listItemWidget.dart';
 import 'dart:math' as math;
@@ -19,18 +19,19 @@ class _ShoppingListState extends State<ShoppingListWidget>
   TabController _shoppingListsController;
   AnimationController _fabController, _fabShowHideController;
   Animation<Offset> _fabShowHideOffset;
-  List _localListItems;
   ScrollController _scrollController;
   bool atBottom = false;
   Singleton _singleton;
+  List<ShoppingListItem> sleList;
   static const List<IconData> icons = const [Icons.note_add, Icons.person_add];
 
   @override
   void initState() {
+    debugPrint("[SLW] init state start.");
     _singleton = Singleton();
-    debugPrint("Singleton: ${_singleton.toString()}");
-    _localListItems =
-        _singleton.user.shoppingListProvider.localShoppingListItems;
+    debugPrint(
+        "Singleton: ${_singleton.user.shoppingListProvider.localShoppingListItems.toString()}");
+    _singleton.user.shoppingListProvider.editing = false;
     _shoppingListsController = TabController(length: 2, vsync: this);
     _fabController = AnimationController(
       vsync: this,
@@ -199,7 +200,11 @@ class _ShoppingListState extends State<ShoppingListWidget>
           children: <Widget>[
             RefreshIndicator(
               onRefresh: refreshList,
-              child: (_localListItems == null || _localListItems.isEmpty)
+              child: (_singleton.user.shoppingListProvider
+                              .localShoppingListItems ==
+                          null ||
+                      _singleton.user.shoppingListProvider
+                          .localShoppingListItems.isEmpty)
                   ? GridView.count(
                       crossAxisCount: 1,
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -223,12 +228,14 @@ class _ShoppingListState extends State<ShoppingListWidget>
                       controller: _scrollController,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: _localListItems.length,
+                      itemCount: _singleton.user.shoppingListProvider
+                          .localShoppingListItems.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListItemWidget(
                           listItemType: 1,
                           notificationCount: index,
-                          sli: _localListItems[index],
+                          sli: _singleton.user.shoppingListProvider
+                              .localShoppingListItems[index],
                         );
                       },
                     ),

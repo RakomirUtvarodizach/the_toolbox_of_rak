@@ -41,11 +41,6 @@ class AuthService {
       AuthResult aResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = aResult.user;
-      // if (user != null) {
-      //   bool yesno = await MoneySaver().updateSingletonUser("users", user.uid);
-      //   debugPrint(
-      //       "[AuthService] Money Saver update singleton user result -> $yesno");
-      // }
       return _userFromFirebaseUser(user);
     } catch (e) {
       debugPrint("[AuthService] Error while logging in: " + e.toString());
@@ -60,6 +55,8 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = aResult.user;
       ShoppingListProvider newSLP = ShoppingListProvider();
+      newSLP.itemsBeingEdited = List();
+      newSLP.localShoppingListItems = List();
       UserSingleton us = UserSingleton(
           email: email,
           firstName: firstName,

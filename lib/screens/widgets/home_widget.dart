@@ -65,20 +65,20 @@ class HomeWidget extends StatelessWidget {
               padding: EdgeInsets.all(10.0),
               child: Text("Register", style: TextStyle(fontSize: 20)),
             ),
-            SizedBox(height: 10.0),
-            RaisedButton(
-              elevation: 6.0,
-              onPressed: () {
-                Navigator.of(context).pushNamed('/database_testing');
-              },
-              textColor: Colors.red,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(color: Colors.blue[500], width: 2.0)),
-              color: Colors.yellow[500],
-              padding: EdgeInsets.all(10.0),
-              child: Text("Database Testing", style: TextStyle(fontSize: 20)),
-            ),
+            // SizedBox(height: 10.0),
+            // RaisedButton(
+            //   elevation: 6.0,
+            //   onPressed: () {
+            //     Navigator.of(context).pushNamed('/database_testing');
+            //   },
+            //   textColor: Colors.red,
+            //   shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(18.0),
+            //       side: BorderSide(color: Colors.blue[500], width: 2.0)),
+            //   color: Colors.yellow[500],
+            //   padding: EdgeInsets.all(10.0),
+            //   child: Text("Database Testing", style: TextStyle(fontSize: 20)),
+            // ),
             SizedBox(height: 10.0),
           ],
         ));

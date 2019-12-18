@@ -11,7 +11,7 @@ part 'userSingleton.g.dart';
 @JsonSerializable(anyMap: true)
 class UserSingleton {
   @JsonKey(ignore: true)
-  final String uid;
+  String uid;
 
   String email;
   String firstName;
