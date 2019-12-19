@@ -140,11 +140,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       padding: EdgeInsets.only(left: 20.0, right: 20.0),
                       child: TextFormField(
                         validator: (String value) {
-                          if (value.length < 2) {
-                            return 'First name must contain at least 2 characters';
+                          if (value.length < 1) {
+                            return 'First name must contain at least 1 character';
                           } else
                             return null;
                         },
+                        textCapitalization: TextCapitalization.sentences,
                         controller: _firstNameController,
                         keyboardType: TextInputType.text,
                         onChanged: (value) {
@@ -159,11 +160,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       padding: EdgeInsets.only(left: 20.0, right: 20.0),
                       child: TextFormField(
                         validator: (String value) {
-                          if (value.length < 2) {
-                            return 'Last name must contain at least 2 characters';
+                          if (value.length < 1) {
+                            return 'Last name must contain at least 1 character';
                           } else
                             return null;
                         },
+                        textCapitalization: TextCapitalization.sentences,
                         controller: _lastNameController,
                         keyboardType: TextInputType.text,
                         onChanged: (value) {

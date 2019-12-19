@@ -139,10 +139,12 @@ class _CustomExpandingListTileState extends State<CustomExpandingListTile>
                     subtitle: widget.subtitle,
                     trailing: RotationTransition(
                       turns: _iconTurns,
-                      child: IconButton(
-                        icon: const Icon(Icons.expand_more),
-                        onPressed: _handleTap,
-                      ),
+                      child: widget.children != null
+                          ? IconButton(
+                              icon: const Icon(Icons.expand_more),
+                              onPressed: _handleTap,
+                            )
+                          : null,
                     ),
                   ),
                 ),
@@ -179,7 +181,9 @@ class _CustomExpandingListTileState extends State<CustomExpandingListTile>
     return AnimatedBuilder(
       animation: _controller.view,
       builder: _buildChildren,
-      child: closed ? null : Column(children: widget.children),
+      child: widget.children != null
+          ? (closed ? null : Column(children: widget.children))
+          : null,
     );
   }
 }

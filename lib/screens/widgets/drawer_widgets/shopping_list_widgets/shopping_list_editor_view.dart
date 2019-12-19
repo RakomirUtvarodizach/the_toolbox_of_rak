@@ -293,6 +293,8 @@ class _ShoppingListEditorViewState extends State<ShoppingListEditorView>
                                   height: 8.0,
                                 ),
                                 TextField(
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
                                   controller: _liveEditingOfListItems[index]
                                       ['title_controller'],
                                   keyboardType: TextInputType.text,
@@ -317,6 +319,8 @@ class _ShoppingListEditorViewState extends State<ShoppingListEditorView>
                                   height: 4.0,
                                 ),
                                 TextField(
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
                                   controller: _liveEditingOfListItems[index]
                                       ['description_controller'],
                                   keyboardType: TextInputType.text,

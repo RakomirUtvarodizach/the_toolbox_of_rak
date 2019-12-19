@@ -143,6 +143,7 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
             Padding(
               padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: TextField(
+                textCapitalization: TextCapitalization.sentences,
                 controller: _titleController,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
@@ -163,6 +164,7 @@ class _ShoppingListEditorState extends State<ShoppingListEditor> {
             Padding(
               padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: TextField(
+                textCapitalization: TextCapitalization.sentences,
                 controller: _descriptionController,
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {

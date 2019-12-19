@@ -174,22 +174,24 @@ class _ListItemWidgetState extends State<ListItemWidget> {
             ),
           ],
         ),
-        children: <Widget>[
-          Divider(
-            color: Colors.white,
-          ),
-          Container(
-            margin: EdgeInsets.only(bottom: 8.0),
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              widget.sli.description,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: BodyTextSize,
-              ),
-            ),
-          ),
-        ],
+        children: widget.sli.description.isNotEmpty
+            ? <Widget>[
+                Divider(
+                  color: Colors.white,
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 8.0),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    widget.sli.description,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: BodyTextSize,
+                    ),
+                  ),
+                ),
+              ]
+            : null,
       );
     } else if (widget.listItemType == 2 && widget.sli != null) {
       return Card(
